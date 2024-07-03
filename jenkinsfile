@@ -1,0 +1,25 @@
+pipeline {
+    agent any
+ 
+    stages {
+        stage('checkout') {
+            steps {
+                git branch: 'main', url: 'https://github.com/sirishar02/javaProject.git'
+            }
+        }
+        stage('build') {
+            steps {
+                sh 'mvn clean package'
+            }
+        }
+        stage('Sonarscanning') {
+            steps {
+                withSonarQubeEnv('sonarqube') {
+                sh 'mvn sonar:sonar'
+               }
+            }
+        }
+      
+        }
+    }
+
